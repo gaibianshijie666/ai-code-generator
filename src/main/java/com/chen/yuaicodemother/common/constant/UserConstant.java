@@ -1,4 +1,4 @@
-package com.chen.yuaicodemother.common;
+package com.chen.yuaicodemother.common.constant;
 
 public interface UserConstant {
 

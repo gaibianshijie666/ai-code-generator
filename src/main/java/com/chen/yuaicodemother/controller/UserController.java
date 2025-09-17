@@ -5,7 +5,7 @@ import com.chen.yuaicodemother.annotation.AuthCheck;
 import com.chen.yuaicodemother.common.BaseResponse;
 import com.chen.yuaicodemother.common.DeleteRequest;
 import com.chen.yuaicodemother.common.ResultUtils;
-import com.chen.yuaicodemother.common.UserConstant;
+import com.chen.yuaicodemother.common.constant.UserConstant;
 import com.chen.yuaicodemother.exception.BusinessException;
 import com.chen.yuaicodemother.exception.ErrorCode;
 import com.chen.yuaicodemother.exception.ThrowUtils;
