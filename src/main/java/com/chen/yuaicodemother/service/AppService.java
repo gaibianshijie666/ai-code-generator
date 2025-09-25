@@ -8,6 +8,7 @@ import com.mybatisflex.core.service.IService;
 import com.chen.yuaicodemother.model.entity.App;
 import reactor.core.publisher.Flux;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**

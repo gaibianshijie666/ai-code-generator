@@ -6,12 +6,25 @@ spring:
     url: jdbc:mysql://localhost:3306/yu_ai_code_mother
     username: root
     password: chen
+  session:
+    store-type: redis
+    #    session三十天过期
+    timeout: 2592000
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      ttl: 3600
   application:
     name: yu-ai-code-mother
 server:
   port: 8123
   servlet:
     context-path: /api
+    session:
+      cookie:
+        max-age: 2592000
 #springdoc-openapi
 springdoc:
   group-configs:

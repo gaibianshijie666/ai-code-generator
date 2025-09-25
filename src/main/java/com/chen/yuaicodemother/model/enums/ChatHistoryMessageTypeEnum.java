@@ -1,20 +1,19 @@
-package com.chen.yuaicodemother.ai.model.enums;
+package com.chen.yuaicodemother.model.enums;
 
 import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;
 
 @Getter
-public enum CodeGenTypeEnum {
+public enum ChatHistoryMessageTypeEnum {
 
-    HTML("原生 HTML 模式", "html"),
-    MULTI_FILE("原生多文件模式", "multi_file"),
-    VUE_PROJECT("Vue 工程模式", "vue_project");
-
+    USER("用户", "user"),
+    AI("AI", "ai");
 
     private final String text;
+
     private final String value;
 
-    CodeGenTypeEnum(String text, String value) {
+    ChatHistoryMessageTypeEnum(String text, String value) {
         this.text = text;
         this.value = value;
     }
@@ -25,11 +24,11 @@ public enum CodeGenTypeEnum {
      * @param value 枚举值的value
      * @return 枚举值
      */
-    public static CodeGenTypeEnum getEnumByValue(String value) {
+    public static ChatHistoryMessageTypeEnum getEnumByValue(String value) {
         if (ObjUtil.isEmpty(value)) {
             return null;
         }
-        for (CodeGenTypeEnum anEnum : CodeGenTypeEnum.values()) {
+        for (ChatHistoryMessageTypeEnum anEnum : ChatHistoryMessageTypeEnum.values()) {
             if (anEnum.value.equals(value)) {
                 return anEnum;
             }
