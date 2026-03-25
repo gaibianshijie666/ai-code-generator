@@ -8,6 +8,7 @@ import com.chen.yuaicodemother.model.entity.Agent;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import dev.langchain4j.community.store.memory.chat.redis.RedisChatMemoryStore;
+import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.service.AiServices;
@@ -72,10 +73,12 @@ public class AgentChatServiceFactory {
 
         Object[] selectedTools = filterTools(agent.getToolIds());
 
-        AiServices.Builder<AgentChatService> builder = AiServices.builder(AgentChatService.class)
+        // 将系统提示词作为系统消息添加到对话记忆开头
+        chatMemory.add(new SystemMessage(agent.getSystemPrompt()));
+
+        var builder = AiServices.builder(AgentChatService.class)
                 .streamingChatModel(openAiStreamingChatModel)
-                .chatMemoryProvider(memId -> chatMemory)
-                .systemMessage(agent.getSystemPrompt());
+                .chatMemoryProvider(memId -> chatMemory);
 
         if (selectedTools.length > 0) {
             builder.tools(selectedTools);
