@@ -1,4 +1,4 @@
-package com.chen.yuaicodemother.ai.model.enums;
+package com.chen.yuaicodemother.model.enums;
 
 import cn.hutool.core.util.ObjUtil;
 import lombok.Getter;
