@@ -1,9 +1,8 @@
 package com.chen.yuaicodemother.core.saver;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.chen.yuaicodemother.ai.model.enums.CodeGenTypeEnum;
+import com.chen.yuaicodemother.model.enums.CodeGenTypeEnum;
 import com.chen.yuaicodemother.common.constant.AppConstant;
 import com.chen.yuaicodemother.exception.BusinessException;
 import com.chen.yuaicodemother.exception.ErrorCode;
@@ -17,10 +16,6 @@ import java.nio.charset.StandardCharsets;
  * @author yupi
  */
 public abstract class CodeFileSaverTemplate<T> {
-
-    // 文件保存根目录
-    protected static final String FILE_SAVE_ROOT_DIR = AppConstant.CODE_OUTPUT_ROOT_DIR;
-
 
     /**
      * 模板方法，保存代码的标准流程（使用appid）
@@ -62,7 +57,7 @@ public abstract class CodeFileSaverTemplate<T> {
         }
         String codeType = getCodeType().getValue();
         String uniqueDirName = StrUtil.format("{}_{}", codeType, appId);
-        String dirPath = FILE_SAVE_ROOT_DIR + File.separator + uniqueDirName;
+        String dirPath = AppConstant.getCodeOutputRootDir() + File.separator + uniqueDirName;
         FileUtil.mkdir(dirPath);
         return dirPath;
     }

@@ -1,6 +1,6 @@
 package com.chen.yuaicodemother.core.parser;
 
-import com.chen.yuaicodemother.ai.model.enums.CodeGenTypeEnum;
+import com.chen.yuaicodemother.model.enums.CodeGenTypeEnum;
 import com.chen.yuaicodemother.exception.BusinessException;
 import com.chen.yuaicodemother.exception.ErrorCode;
 
@@ -24,6 +24,12 @@ public class CodeParserExecutor {
      * @return 解析结果（HtmlCodeResult 或 MultiFileCodeResult）
      */
     public static Object executeParser(String codeContent, CodeGenTypeEnum codeGenType) {
+        if (codeGenType == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "代码生成类型不能为空");
+        }
+        if (codeContent == null) {
+            codeContent = "";
+        }
         return switch (codeGenType) {
             case HTML -> htmlCodeParser.parseCode(codeContent);
             case MULTI_FILE -> multiFileCodeParser.parseCode(codeContent);

@@ -2,15 +2,17 @@ package com.chen.yuaicodemother.core.saver;
 
 import cn.hutool.core.util.StrUtil;
 import com.chen.yuaicodemother.ai.model.MultiFileCodeResult;
-import com.chen.yuaicodemother.ai.model.enums.CodeGenTypeEnum;
+import com.chen.yuaicodemother.model.enums.CodeGenTypeEnum;
 import com.chen.yuaicodemother.exception.BusinessException;
 import com.chen.yuaicodemother.exception.ErrorCode;
+import org.springframework.stereotype.Component;
 
 /**
  * 多文件代码保存器
  *
  * @author yupi
  */
+@Component
 public class MultiFileCodeFileSaverTemplate extends CodeFileSaverTemplate<MultiFileCodeResult> {
 
     @Override

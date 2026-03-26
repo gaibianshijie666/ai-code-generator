@@ -2,15 +2,17 @@ package com.chen.yuaicodemother.core.saver;
 
 import cn.hutool.core.util.StrUtil;
 import com.chen.yuaicodemother.ai.model.HtmlCodeResult;
-import com.chen.yuaicodemother.ai.model.enums.CodeGenTypeEnum;
+import com.chen.yuaicodemother.model.enums.CodeGenTypeEnum;
 import com.chen.yuaicodemother.exception.BusinessException;
 import com.chen.yuaicodemother.exception.ErrorCode;
+import org.springframework.stereotype.Component;
 
 /**
  * HTML代码文件保存器
  *
  * @author yupi
  */
+@Component
 public class HtmlCodeFileSaverTemplate extends CodeFileSaverTemplate<HtmlCodeResult> {
 
     @Override

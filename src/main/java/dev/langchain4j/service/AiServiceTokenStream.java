@@ -25,7 +25,7 @@ import static dev.langchain4j.internal.ValidationUtils.ensureNotEmpty;
 import static dev.langchain4j.internal.ValidationUtils.ensureNotNull;
 
 @Internal
-public class AiServiceTokenStream implements TokenStream {
+public class AiServiceTokenStream implements dev.langchain4j.service.TokenStream {
 
     private final List<ChatMessage> messages;
     private final List<ToolSpecification> toolSpecifications;
@@ -70,47 +70,47 @@ public class AiServiceTokenStream implements TokenStream {
     }
 
     @Override
-    public TokenStream onPartialResponse(Consumer<String> partialResponseHandler) {
+    public dev.langchain4j.service.TokenStream onPartialResponse(Consumer<String> partialResponseHandler) {
         this.partialResponseHandler = partialResponseHandler;
         this.onPartialResponseInvoked++;
         return this;
     }
 
     @Override
-    public TokenStream onPartialToolExecutionRequest(BiConsumer<Integer, ToolExecutionRequest> toolExecutionRequestHandler) {
+    public dev.langchain4j.service.TokenStream onPartialToolExecutionRequest(BiConsumer<Integer, ToolExecutionRequest> toolExecutionRequestHandler) {
         this.partialToolExecutionRequestHandler = toolExecutionRequestHandler;
         return this;
     }
 
     @Override
-    public TokenStream onCompleteToolExecutionRequest(BiConsumer<Integer, ToolExecutionRequest> completedHandler) {
+    public dev.langchain4j.service.TokenStream onCompleteToolExecutionRequest(BiConsumer<Integer, ToolExecutionRequest> completedHandler) {
         this.completeToolExecutionRequestHandler = completedHandler;
         return this;
     }
 
     @Override
-    public TokenStream onRetrieved(Consumer<List<Content>> contentsHandler) {
+    public dev.langchain4j.service.TokenStream onRetrieved(Consumer<List<Content>> contentsHandler) {
         this.contentsHandler = contentsHandler;
         this.onRetrievedInvoked++;
         return this;
     }
 
     @Override
-    public TokenStream onToolExecuted(Consumer<ToolExecution> toolExecutionHandler) {
+    public dev.langchain4j.service.TokenStream onToolExecuted(Consumer<ToolExecution> toolExecutionHandler) {
         this.toolExecutionHandler = toolExecutionHandler;
         this.onToolExecutedInvoked++;
         return this;
     }
 
     @Override
-    public TokenStream onCompleteResponse(Consumer<ChatResponse> completionHandler) {
+    public dev.langchain4j.service.TokenStream onCompleteResponse(Consumer<ChatResponse> completionHandler) {
         this.completeResponseHandler = completionHandler;
         this.onCompleteResponseInvoked++;
         return this;
     }
 
     @Override
-    public TokenStream onError(Consumer<Throwable> errorHandler) {
+    public dev.langchain4j.service.TokenStream onError(Consumer<Throwable> errorHandler) {
         this.errorHandler = errorHandler;
         this.onErrorInvoked++;
         return this;
