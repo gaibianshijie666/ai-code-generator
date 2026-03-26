@@ -1,30 +1,55 @@
 package com.chen.yuaicodemother.common.constant;
 
-public interface AppConstant {
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-    /**
-     * 精选应用的优先级
-     */
-    Integer GOOD_APP_PRIORITY = 99;
+/**
+ * 应用常量配置
+ */
+@Component
+public class AppConstant {
 
-    /**
-     * 默认应用优先级
-     */
-    Integer DEFAULT_APP_PRIORITY = 0;
+    public static final Integer GOOD_APP_PRIORITY = 99;
 
-    /**
-     * 应用生成目录
-     */
-    String CODE_OUTPUT_ROOT_DIR = System.getProperty("user.dir") + "/tmp/code_output";
+    public static final Integer DEFAULT_APP_PRIORITY = 0;
 
-    /**
-     * 应用部署目录
-     */
-    String CODE_DEPLOY_ROOT_DIR = System.getProperty("user.dir") + "/tmp/code_deploy";
+    private static String codeOutputRootDir;
+    private static String codeDeployRootDir;
+    private static String codeDeployHost;
 
-    /**
-     * 应用部署域名
-     */
-    String CODE_DEPLOY_HOST = "http://localhost";
+    @Value("${app.code.output-dir:${user.dir}/tmp/code_output}")
+    public void setCodeOutputRootDir(String codeOutputRootDir) {
+        AppConstant.codeOutputRootDir = codeOutputRootDir;
+    }
 
+    @Value("${app.code.deploy-dir:${user.dir}/tmp/code_deploy}")
+    public void setCodeDeployRootDir(String codeDeployRootDir) {
+        AppConstant.codeDeployRootDir = codeDeployRootDir;
+    }
+
+    @Value("${app.code.deploy-host:http://localhost}")
+    public void setCodeDeployHost(String codeDeployHost) {
+        AppConstant.codeDeployHost = codeDeployHost;
+    }
+
+    public static String getCodeOutputRootDir() {
+        if (codeOutputRootDir == null) {
+            throw new IllegalStateException("AppConstant 未初始化，请确保 ApplicationContext 已启动");
+        }
+        return codeOutputRootDir;
+    }
+
+    public static String getCodeDeployRootDir() {
+        if (codeDeployRootDir == null) {
+            throw new IllegalStateException("AppConstant 未初始化，请确保 ApplicationContext 已启动");
+        }
+        return codeDeployRootDir;
+    }
+
+    public static String getCodeDeployHost() {
+        if (codeDeployHost == null) {
+            throw new IllegalStateException("AppConstant 未初始化，请确保 ApplicationContext 已启动");
+        }
+        return codeDeployHost;
+    }
 }
