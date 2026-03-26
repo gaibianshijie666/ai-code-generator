@@ -2,7 +2,7 @@ package com.chen.yuaicodemother;
 
 import com.chen.yuaicodemother.ai.AiCodeGeneratorService;
 import com.chen.yuaicodemother.ai.model.HtmlCodeResult;
-import com.chen.yuaicodemother.ai.model.enums.CodeGenTypeEnum;
+import com.chen.yuaicodemother.model.enums.CodeGenTypeEnum;
 import com.chen.yuaicodemother.core.AiCodeGeneratorFacade;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
