@@ -1,5 +1,6 @@
 package com.chen.yuaicodemother.model.dto.app;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,9 +8,7 @@ import java.io.Serializable;
 @Data
 public class AppAddRequest implements Serializable {
 
-    /**
-     * 应用初始化的 prompt
-     */
+    @NotBlank(message = "初始化 prompt 不能为空")
     private String initPrompt;
 
     private static final long serialVersionUID = 1L;

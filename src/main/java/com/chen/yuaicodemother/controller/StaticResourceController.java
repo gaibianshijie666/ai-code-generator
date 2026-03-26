@@ -1,5 +1,6 @@
 package com.chen.yuaicodemother.controller;
 
+import com.chen.yuaicodemother.common.constant.AppConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -13,13 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.HandlerMapping;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Set;
 
+/**
+ * 静态资源访问
+ */
 @RestController
 @RequestMapping("/static")
 public class StaticResourceController {
 
-    // 应用生成根目录（用于浏览）
-    private static final String PREVIEW_ROOT_DIR = System.getProperty("user.dir") + "/tmp/code_output";
+    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("id", "createTime", "appId", "messageType");
 
     /**
      * 提供静态资源访问，支持目录重定向
@@ -44,8 +49,18 @@ public class StaticResourceController {
                 resourcePath = "/index.html";
             }
             // 构建文件路径
-            String filePath = PREVIEW_ROOT_DIR + "/" + deployKey + resourcePath;
+            String filePath = AppConstant.getCodeOutputRootDir() + "/" + deployKey + resourcePath;
             File file = new File(filePath);
+            // 路径穿越防护：确保文件在允许的根目录内
+            try {
+                String canonicalFilePath = file.getCanonicalPath();
+                String canonicalRoot = new File(AppConstant.getCodeOutputRootDir()).getCanonicalPath();
+                if (!canonicalFilePath.startsWith(canonicalRoot + File.separator)) {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                }
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
             // 检查文件是否存在
             if (!file.exists()) {
                 return ResponseEntity.notFound().build();
@@ -63,7 +78,7 @@ public class StaticResourceController {
     /**
      * 根据文件扩展名返回带字符编码的 Content-Type
      */
-    private String getContentTypeWithCharset(String filePath) {   
+    private String getContentTypeWithCharset(String filePath) {
         if (filePath.endsWith(".html")) return "text/html; charset=UTF-8";
         if (filePath.endsWith(".css")) return "text/css; charset=UTF-8";
         if (filePath.endsWith(".js")) return "application/javascript; charset=UTF-8";
