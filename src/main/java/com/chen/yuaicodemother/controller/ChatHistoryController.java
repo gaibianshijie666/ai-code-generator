@@ -15,8 +15,6 @@ import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -32,8 +30,8 @@ import java.util.List;
 public class ChatHistoryController {
 
     @Resource
-    @Lazy
     private ChatHistoryService chatHistoryService;
+
     @Resource
     private UserService userService;
 
@@ -75,14 +73,17 @@ public class ChatHistoryController {
     }
 
     /**
-     * 保存对话历史。
+     * 保存对话历史（内部接口，由 AppServiceImpl 调用）
      *
      * @param chatHistory 对话历史
      * @return {@code true} 保存成功，{@code false} 保存失败
      */
-    @PostMapping("save")
-    public boolean save(@RequestBody ChatHistory chatHistory) {
-        return chatHistoryService.save(chatHistory);
+    @PostMapping("/save")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> save(@RequestBody ChatHistory chatHistory) {
+        ThrowUtils.throwIf(chatHistory == null, ErrorCode.PARAMS_ERROR);
+        boolean result = chatHistoryService.save(chatHistory);
+        return ResultUtils.success(result);
     }
 
     /**
@@ -91,9 +92,12 @@ public class ChatHistoryController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
-    public boolean remove(@PathVariable Long id) {
-        return chatHistoryService.removeById(id);
+    @DeleteMapping("/remove/{id}")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> remove(@PathVariable Long id) {
+        ThrowUtils.throwIf(id == null || id <= 0, ErrorCode.PARAMS_ERROR, "ID无效");
+        boolean result = chatHistoryService.removeById(id);
+        return ResultUtils.success(result);
     }
 
     /**
@@ -102,19 +106,12 @@ public class ChatHistoryController {
      * @param chatHistory 对话历史
      * @return {@code true} 更新成功，{@code false} 更新失败
      */
-    @PutMapping("update")
-    public boolean update(@RequestBody ChatHistory chatHistory) {
-        return chatHistoryService.updateById(chatHistory);
-    }
-
-    /**
-     * 查询所有对话历史。
-     *
-     * @return 所有数据
-     */
-    @GetMapping("list")
-    public List<ChatHistory> list() {
-        return chatHistoryService.list();
+    @PutMapping("/update")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> update(@RequestBody ChatHistory chatHistory) {
+        ThrowUtils.throwIf(chatHistory == null || chatHistory.getId() == null, ErrorCode.PARAMS_ERROR);
+        boolean result = chatHistoryService.updateById(chatHistory);
+        return ResultUtils.success(result);
     }
 
     /**
@@ -123,20 +120,10 @@ public class ChatHistoryController {
      * @param id 对话历史主键
      * @return 对话历史详情
      */
-    @GetMapping("getInfo/{id}")
-    public ChatHistory getInfo(@PathVariable Long id) {
-        return chatHistoryService.getById(id);
+    @GetMapping("/get/{id}")
+    public BaseResponse<ChatHistory> getById(@PathVariable Long id) {
+        ThrowUtils.throwIf(id == null || id <= 0, ErrorCode.PARAMS_ERROR, "ID无效");
+        ChatHistory chatHistory = chatHistoryService.getById(id);
+        return ResultUtils.success(chatHistory);
     }
-
-    /**
-     * 分页查询对话历史。
-     *
-     * @param page 分页对象
-     * @return 分页对象
-     */
-    @GetMapping("page")
-    public Page<ChatHistory> page(Page<ChatHistory> page) {
-        return chatHistoryService.page(page);
-    }
-
 }
